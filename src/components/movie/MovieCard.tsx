@@ -8,14 +8,22 @@ import Image from "next/image";
 import { getImageUrl } from "@/lib/image";
 interface MovieCardProps {
   movie: FavoriteMovie;
+  rank: number;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, rank }: MovieCardProps) {
   return (
     <Card
       className="relative w-36 overflow-hidden bg-neutral-900 hover:border-yellow-400
        hover:shadow-yellow-400 transition border border-neutral-800 shadow-md"
     >
+      {/* Ranking Badge */}
+      {rank !== undefined && (
+        <div className="absolute top-2 left-2 z-10 border-2 border-yellow-400 text-yellow-400 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md bg-neutral-900/80">
+          {rank}
+        </div>
+      )}
+
       {/* Favorite Button */}
       <div className="absolute top-2 right-2 z-10">
         <FavoriteButton movie={movie} />

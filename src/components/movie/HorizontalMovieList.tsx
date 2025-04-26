@@ -93,14 +93,14 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
           !isDragging && "snap-x snap-mandatory"
         )}
       >
-        {movies.slice(0, maxItems).map((movie) => (
+        {movies.slice(0, maxItems).map((movie, index) => (
           <div
             key={movie.id}
             className="flex-shrink-0 snap-start"
             onMouseEnter={() => setIsHoveringCard(true)}
             onMouseLeave={() => setIsHoveringCard(false)}
           >
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} rank={index + 1} />
           </div>
         ))}
       </div>
