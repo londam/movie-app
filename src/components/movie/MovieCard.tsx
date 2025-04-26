@@ -5,6 +5,7 @@ import { FavoriteMovie } from "@/store/slices/favoritesSlice";
 
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/image";
 interface MovieCardProps {
   movie: FavoriteMovie;
 }
@@ -20,7 +21,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
       {/* Poster */}
       <div className="w-full h-72 relative">
         <Image
-          src={movie.poster_path}
+          src={getImageUrl(movie.poster_path)}
           alt={movie.title}
           fill
           className="object-cover"
