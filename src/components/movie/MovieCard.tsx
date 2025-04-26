@@ -8,7 +8,7 @@ import Image from "next/image";
 import { getImageUrl } from "@/lib/image";
 interface MovieCardProps {
   movie: FavoriteMovie;
-  rank: number;
+  rank?: number;
 }
 
 export default function MovieCard({ movie, rank }: MovieCardProps) {
