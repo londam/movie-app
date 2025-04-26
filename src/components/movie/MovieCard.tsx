@@ -34,7 +34,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
       </div>
 
       {/* Title */}
-      <CardContent className="p-1">
+      <CardContent className="p-2">
         <h2 className="text-sm font-semibold text-white">{movie.title}</h2>
       </CardContent>
     </Card>
