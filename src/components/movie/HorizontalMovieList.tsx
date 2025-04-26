@@ -45,19 +45,19 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
   };
 
   return (
-    <div className="relative">
+    <div className="relative group">
       {/* Nav Buttons */}
       <button
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black p-2 rounded-full z-10"
+        className="absolute left-0 top-0 h-full bg-yellow-400 opacity-0 group-hover:opacity-25 hover:brightness-90 p-2 rounded-none z-10 transition-all duration-300"
         onClick={() => scroll("left")}
       >
-        <ChevronLeft className="w-5 h-5 text-white" />
+        <ChevronLeft className="w-6 h-6 text-black" />
       </button>
       <button
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black p-2 rounded-full z-10"
+        className="absolute right-0 top-0 h-full bg-yellow-400 opacity-0 group-hover:opacity-25 hover:brightness-90 p-2 rounded-none z-10 transition-all duration-300"
         onClick={() => scroll("right")}
       >
-        <ChevronRight className="w-5 h-5 text-white" />
+        <ChevronRight className="w-6 h-6 text-black" />
       </button>
 
       {/* Movie List */}
