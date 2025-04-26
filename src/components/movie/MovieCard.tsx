@@ -34,8 +34,8 @@ export default function MovieCard({ movie }: MovieCardProps) {
       </div>
 
       {/* Title */}
-      <CardContent className="p-2">
-        <h2 className="text-sm font-semibold text-white">{movie.title}</h2>
+      <CardContent className="p-2 py-1 -my-4">
+        <h2 className="text-sm font-semibold text-white truncate">{movie.title}</h2>
       </CardContent>
     </Card>
   );
