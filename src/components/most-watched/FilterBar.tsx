@@ -7,41 +7,90 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
+const GENRES = [
+  { id: 28, name: "Action" },
+  { id: 35, name: "Comedy" },
+  { id: 18, name: "Drama" },
+  { id: 27, name: "Horror" },
+  { id: 878, name: "Sci-Fi" },
+  { id: 16, name: "Animation" },
+  { id: 10749, name: "Romance" },
+  { id: 12, name: "Adventure" },
+  { id: 9648, name: "Mystery" },
+  { id: 53, name: "Thriller" },
+];
 
 interface FilterBarProps {
-  genre: string;
+  genres: string[];
   year: string;
   score: string;
-  onGenreChange: (value: string) => void;
+  onGenresChange: (value: string[]) => void;
   onYearChange: (value: string) => void;
   onScoreChange: (value: string) => void;
 }
 
 export default function FilterBar({
-  genre,
+  genres,
   year,
   score,
-  onGenreChange,
+  onGenresChange,
   onYearChange,
   onScoreChange,
 }: FilterBarProps) {
   return (
     <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-      {/* Genre Filter */}
-      <Select value={genre} onValueChange={onGenreChange}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select Genre" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Genres</SelectItem>
-          <SelectItem value="28">Action</SelectItem>
-          <SelectItem value="35">Comedy</SelectItem>
-          <SelectItem value="18">Drama</SelectItem>
-          <SelectItem value="27">Horror</SelectItem>
-          <SelectItem value="878">Sci-Fi</SelectItem>
-          {/* Add more genres if you want */}
-        </SelectContent>
-      </Select>
+      {/* Genres Multi-Select */}
+      <Popover>
+        <PopoverTrigger>
+          <Button
+            variant="outline"
+            className="w-[200px] justify-start bg-neutral-900 text-white 
+            border-neutral-700 hover:bg-neutral-800 hover:text-yellow-400"
+          >
+            {genres.length ? (
+              <span className="truncate">
+                {genres
+                  .map((id) => GENRES.find((g) => g.id.toString() === id)?.name)
+                  .filter(Boolean)
+                  .join(", ")}
+              </span>
+            ) : (
+              "Select Genres"
+            )}
+          </Button>
+        </PopoverTrigger>
+
+        <PopoverContent
+          className="w-64 bg-neutral-900 text-white border border-neutral-700"
+          align="start"
+          sideOffset={4}
+        >
+          <div className="grid gap-2">
+            {GENRES.map((genre) => (
+              <div key={genre.id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={genre.id.toString()}
+                  checked={genres.includes(genre.id.toString())}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      onGenresChange([...genres, genre.id.toString()]);
+                    } else {
+                      onGenresChange(genres.filter((g) => g !== genre.id.toString()));
+                    }
+                  }}
+                />
+                <Label htmlFor={genre.id.toString()}>{genre.name}</Label>
+              </div>
+            ))}
+          </div>
+        </PopoverContent>
+      </Popover>
 
       {/* Year Filter */}
       <Select value={year} onValueChange={onYearChange}>
@@ -55,7 +104,6 @@ export default function FilterBar({
           <SelectItem value="2022">2022</SelectItem>
           <SelectItem value="2021">2021</SelectItem>
           <SelectItem value="2020">2020</SelectItem>
-          {/* You can dynamically generate years too later */}
         </SelectContent>
       </Select>
 

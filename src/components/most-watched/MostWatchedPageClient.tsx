@@ -6,9 +6,14 @@ import { useEffect, useState, useRef } from "react";
 import { fetchFromTMDB } from "@/lib/api";
 import { TMDBMovie, TMDBMovieListResponse } from "@/types/tmdb";
 import MovieGrid from "./MovieGrid";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 export default function MostWatchedPageClient() {
-  const [genre, setGenre] = useState("");
+  const [genres, setGenres] = useState<string[]>([]);
+
   const [year, setYear] = useState("");
   const [score, setScore] = useState("");
   const [movies, setMovies] = useState<TMDBMovie[]>([]);
@@ -74,10 +79,10 @@ export default function MostWatchedPageClient() {
 
       {/* Filters */}
       <FilterBar
-        genre={genre}
+        genres={genres}
         year={year}
         score={score}
-        onGenreChange={setGenre}
+        onGenresChange={setGenres}
         onYearChange={setYear}
         onScoreChange={setScore}
       />
