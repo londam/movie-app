@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Slider } from "../ui/slider";
 
 const GENRES = [
   { id: 28, name: "Action" },
@@ -28,19 +28,19 @@ const GENRES = [
 
 interface FilterBarProps {
   genres: string[];
-  year: string;
+  yearRange: [number, number];
   score: string;
   onGenresChange: (value: string[]) => void;
-  onYearChange: (value: string) => void;
+  onYearRangeChange: (value: [number, number]) => void;
   onScoreChange: (value: string) => void;
 }
 
 export default function FilterBar({
   genres,
-  year,
+  yearRange,
   score,
   onGenresChange,
-  onYearChange,
+  onYearRangeChange,
   onScoreChange,
 }: FilterBarProps) {
   return (
@@ -93,7 +93,7 @@ export default function FilterBar({
       </Popover>
 
       {/* Year Filter */}
-      <Select value={year} onValueChange={onYearChange}>
+      {/* <Select value={year} onValueChange={onYearChange}>
         <SelectTrigger className="w-[120px]">
           <SelectValue placeholder="Select Year" />
         </SelectTrigger>
@@ -105,7 +105,21 @@ export default function FilterBar({
           <SelectItem value="2021">2021</SelectItem>
           <SelectItem value="2020">2020</SelectItem>
         </SelectContent>
-      </Select>
+      </Select> */}
+
+      {/* Year Range Slider */}
+      <div className="w-[280px] flex flex-col items-start">
+        <Label className="mb-2 text-sm text-white">
+          Year: {yearRange[0]} – {yearRange[1]}
+        </Label>
+        <Slider
+          min={1950}
+          max={2024}
+          step={1}
+          value={yearRange}
+          onValueChange={(value) => onYearRangeChange(value as [number, number])}
+        />
+      </div>
 
       {/* Score Filter */}
       <Select value={score} onValueChange={onScoreChange}>
