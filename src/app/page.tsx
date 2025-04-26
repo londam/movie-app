@@ -1,4 +1,5 @@
 import NewestMoviesSection from "@/components/home/NewestMoviesSection";
+import TopStreamingSection from "@/components/home/TopStreamingSection";
 import MovieCard from "@/components/movie/MovieCard";
 import { getPopularMovies } from "@/lib/movie-service";
 
@@ -13,6 +14,7 @@ export default async function HomePage() {
       </div>
       <div className="p-6">
         <NewestMoviesSection />
+        <TopStreamingSection />
       </div>
       <div className="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {movies.map((movie) => (

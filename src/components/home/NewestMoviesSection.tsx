@@ -30,9 +30,9 @@ const NewestMoviesSection = () => {
     return (
       <div className="p-6">
         <SectionTitle title="Newest Movies" />
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="w-48 h-72 bg-neutral-800 animate-pulse rounded-lg" />
+            <div key={i} className="w-36 h-48 bg-neutral-800 animate-pulse rounded-lg" />
           ))}
         </div>
       </div>
