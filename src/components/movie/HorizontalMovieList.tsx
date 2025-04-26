@@ -1,9 +1,10 @@
 "use client";
 
 import MovieCard from "@/components/movie/MovieCard";
+import { cn } from "@/lib/utils";
 import { TMDBMovie } from "@/types/tmdb";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // shadcn uses lucide for icons
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface HorizontalMovieListProps {
   movies: TMDBMovie[];
@@ -12,6 +13,8 @@ interface HorizontalMovieListProps {
 
 export default function HorizontalMovieList({ movies, maxItems = 10 }: HorizontalMovieListProps) {
   const listRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHoveringCard, setIsHoveringCard] = useState(false);
 
   const scroll = (direction: "left" | "right") => {
     if (!listRef.current) return;
@@ -21,23 +24,36 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
       behavior: "smooth",
     });
   };
-
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const el = listRef.current;
     if (!el) return;
 
-    const startX = e.pageX - el.offsetLeft;
+    e.preventDefault();
+
+    const startX = e.pageX;
     const scrollLeft = el.scrollLeft;
 
-    const onMouseMove = (e: MouseEvent) => {
-      const x = e.pageX - el.offsetLeft;
-      const walk = (x - startX) * 1; // scroll-fastness multiplier
-      el.scrollLeft = scrollLeft - walk;
+    // let isDragging = false;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      const x = moveEvent.pageX;
+      const distance = Math.abs(x - startX);
+      if (distance > 10) {
+        setIsDragging(true);
+      }
+      const walk = (startX - x) * 1;
+      el.scrollLeft = scrollLeft + walk;
     };
 
-    const onMouseUp = () => {
+    const onMouseUp = (upEvent: MouseEvent) => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
+
+      if (isDragging) {
+        upEvent.preventDefault();
+        upEvent.stopPropagation(); // This prevents click event bubbling after drag
+      }
+      setIsDragging(false);
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -63,11 +79,26 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
       {/* Movie List */}
       <div
         ref={listRef}
-        onMouseDown={handleMouseDown}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-8"
+        onMouseDown={(e) => {
+          setIsDragging(true);
+          handleMouseDown(e);
+        }}
+        onMouseUp={() => {
+          setIsDragging(false);
+        }}
+        className={cn(
+          "flex gap-4 overflow-x-auto scrollbar-hide px-8",
+          isDragging ? "cursor-grabbing" : isHoveringCard ? "cursor-pointer" : "cursor-grab",
+          !isDragging && "snap-x snap-mandatory"
+        )}
       >
         {movies.slice(0, maxItems).map((movie) => (
-          <div key={movie.id} className="flex-shrink-0 snap-start">
+          <div
+            key={movie.id}
+            className="flex-shrink-0 snap-start"
+            onMouseEnter={() => setIsHoveringCard(true)}
+            onMouseLeave={() => setIsHoveringCard(false)}
+          >
             <MovieCard movie={movie} />
           </div>
         ))}

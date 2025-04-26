@@ -50,7 +50,7 @@ const TopStreamingSection = () => {
 
         {streamServices.map((service, index) => (
           <TabsContent key={service} value={service}>
-            <HorizontalMovieList movies={movies.slice(index * 3, index * 3 + 6)} />
+            <HorizontalMovieList movies={movies.slice(index * 3, index * 3 + 9)} />
           </TabsContent>
         ))}
       </Tabs>
