@@ -11,7 +11,7 @@ interface MovieCardProps {
 
 export default function MovieCard({ movie }: MovieCardProps) {
   return (
-    <Card className="relative w-48 overflow-hidden bg-neutral-900 hover:bg-neutral-800 transition shadow-lg">
+    <Card className="relative w-48 overflow-hidden bg-neutral-900 hover:border-yellow-400 hover:shadow-yellow-400 transition border border-neutral-800 shadow-md">
       {/* Favorite Button */}
       <div className="absolute top-2 right-2 z-10">
         <FavoriteButton movie={movie} />
