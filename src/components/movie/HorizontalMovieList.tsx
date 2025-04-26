@@ -24,6 +24,7 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
       behavior: "smooth",
     });
   };
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const el = listRef.current;
     if (!el) return;
