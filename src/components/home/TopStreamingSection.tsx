@@ -5,8 +5,8 @@ import { getPopularMovies } from "@/lib/movie-service";
 import { TMDBMovie } from "@/types/tmdb";
 import React, { useEffect, useState } from "react";
 import SectionTitle from "./SectionTitle";
-import MovieCard from "../movie/MovieCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import HorizontalMovieList from "../movie/HorizontalMovieList";
 
 const TopStreamingSection = () => {
   const [movies, setMovies] = useState<TMDBMovie[]>([]);
@@ -50,18 +50,7 @@ const TopStreamingSection = () => {
 
         {streamServices.map((service, index) => (
           <TabsContent key={service} value={service}>
-            <div className="flex gap-4 overflow-x-auto scrollbar-hide">
-              {movies.slice(index * 3, index * 3 + 6).map((movie) => (
-                <MovieCard
-                  key={movie.id}
-                  movie={{
-                    id: movie.id,
-                    title: movie.title,
-                    poster_path: movie.poster_path,
-                  }}
-                />
-              ))}
-            </div>
+            <HorizontalMovieList movies={movies.slice(index * 3, index * 3 + 6)} />
           </TabsContent>
         ))}
       </Tabs>
