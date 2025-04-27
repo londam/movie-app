@@ -17,6 +17,21 @@ export default function MostWatchedPageClient() {
   const [loading, setLoading] = useState(false);
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+
+  const filteredMovies = movies.filter((movie) => {
+    const releaseYear = parseInt(movie.release_date?.split("-")[0] || "0");
+    const imdbScore = movie.vote_average || 0;
+    const movieGenres = movie.genre_ids || [];
+
+    const matchesYear = releaseYear >= yearRange[0] && releaseYear <= yearRange[1];
+
+    const matchesScore = imdbScore >= imdbScoreRange[0] && imdbScore <= imdbScoreRange[1];
+
+    const matchesGenre = genres.length === 0 || genres.some((g) => movieGenres.includes(Number(g)));
+
+    return matchesYear && matchesScore && matchesGenre;
+  });
 
   useEffect(() => {
     async function loadMovies() {
@@ -33,9 +48,15 @@ export default function MostWatchedPageClient() {
         const data = await fetchFromTMDB<TMDBMovieListResponse>("/movie/popular", {
           page: page.toString(),
         });
+
+        if (data.results.length === 0) {
+          setHasMore(false); // no more data from API
+          return;
+        }
         setMovies((prev) => [...prev, ...data.results]);
       } catch (error) {
         console.error(error);
+        setHasMore(false); // stop on error too (reached end of pages from API)
       } finally {
         if (page === 1) {
           setLoading(false);
@@ -50,6 +71,7 @@ export default function MostWatchedPageClient() {
 
   useEffect(() => {
     if (!loadMoreRef.current) return;
+    if (!hasMore) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -84,13 +106,7 @@ export default function MostWatchedPageClient() {
       />
 
       {/* Movie Grid */}
-      <MovieGrid
-        movies={movies}
-        loading={loading && movies.length === 0}
-        genres={genres}
-        yearRange={yearRange}
-        imdbScoreRange={imdbScoreRange}
-      />
+      <MovieGrid movies={filteredMovies} loading={loading && movies.length === 0} />
       <div ref={loadMoreRef} className="h-10" />
     </div>
   );
