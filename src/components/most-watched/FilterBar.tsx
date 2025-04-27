@@ -29,19 +29,19 @@ const GENRES = [
 interface FilterBarProps {
   genres: string[];
   yearRange: [number, number];
-  score: string;
+  imdbScoreRange: [number, number];
   onGenresChange: (value: string[]) => void;
   onYearRangeChange: (value: [number, number]) => void;
-  onScoreChange: (value: string) => void;
+  onImdbScoreChange: (value: [number, number]) => void;
 }
 
 export default function FilterBar({
   genres,
   yearRange,
-  score,
+  imdbScoreRange,
   onGenresChange,
   onYearRangeChange,
-  onScoreChange,
+  onImdbScoreChange,
 }: FilterBarProps) {
   return (
     <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
@@ -108,17 +108,19 @@ export default function FilterBar({
       </div>
 
       {/* Score Filter */}
-      <Select value={score} onValueChange={onScoreChange}>
-        <SelectTrigger className="w-[140px]">
-          <SelectValue placeholder="Select Score" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Scores</SelectItem>
-          <SelectItem value="7">Above 7</SelectItem>
-          <SelectItem value="8">Above 8</SelectItem>
-          <SelectItem value="9">Above 9</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="w-[280px] flex flex-col items-start">
+        <Label className="mb-2 text-sm text-white">
+          IMDb Score: {imdbScoreRange[0]} - {imdbScoreRange[1]}
+        </Label>
+        <Slider
+          min={0}
+          max={10}
+          step={0.1}
+          value={imdbScoreRange}
+          onValueChange={(value) => onImdbScoreChange(value as [number, number])}
+          className="w-full [&_[data-slot=slider-range]]:bg-yellow-400 [&_[data-slot=slider-track]]:bg-neutral-900 [&_[role=slider]]:bg-yellow-400"
+        />
+      </div>
     </div>
   );
 }

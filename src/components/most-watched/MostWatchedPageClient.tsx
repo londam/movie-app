@@ -11,7 +11,7 @@ export default function MostWatchedPageClient() {
   const [genres, setGenres] = useState<string[]>([]);
 
   const [yearRange, setYearRange] = useState<[number, number]>(() => [1990, 2025]);
-  const [score, setScore] = useState("");
+  const [imdbScoreRange, setImdbScoreChange] = useState<[number, number]>(() => [7.5, 10]);
   const [movies, setMovies] = useState<TMDBMovie[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -77,10 +77,10 @@ export default function MostWatchedPageClient() {
       <FilterBar
         genres={genres}
         yearRange={yearRange}
-        score={score}
+        imdbScoreRange={imdbScoreRange}
         onGenresChange={setGenres}
         onYearRangeChange={setYearRange}
-        onScoreChange={setScore}
+        onImdbScoreChange={setImdbScoreChange}
       />
 
       {/* Movie Grid */}
