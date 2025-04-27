@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMovieDetails } from "@/lib/movie-service";
 import FavoriteButton from "@/components/movie/FavoriteButton";
 import Image from "next/image";
 import { X } from "lucide-react"; // using lucide for close icon (shadcn default)
 import { TMDBMovieDetails } from "@/types/tmdb";
+import Modal from "../Modal";
 
 interface MovieDetailsModalProps {
   movieId: string;
@@ -28,13 +29,37 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
     load();
   }, [movieId]);
 
+  const onDismiss = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        console.log("Pressed ESC, closing modal");
+        onDismiss();
+      }
+    },
+    [onDismiss]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onKeyDown]);
   if (!movie) {
     return <div className="p-8 text-center">Loading...</div>;
   }
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50">
-      <div className="relative bg-neutral-900 p-6 rounded-lg w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 bg-black/80 flex justify-center items-center z-60"
+      onClick={() => router.back()}
+    >
+      <div
+        className="relative bg-neutral-900 p-6 rounded-lg w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-neutral-400 hover:text-white transition"
