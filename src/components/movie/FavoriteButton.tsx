@@ -28,7 +28,9 @@ const FavoriteButton = ({ movie }: FavoriteButtonProps) => {
       onClick={toggleFavorite}
       className={cn(
         "rounded-full p-2 transition",
-        isFavorited ? "bg-yellow-400 text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"
+        isFavorited
+          ? "bg-yellow-400 text-black hover:bg-yellow-200"
+          : "bg-neutral-800 text-white hover:bg-neutral-700"
       )}
       aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
     >
