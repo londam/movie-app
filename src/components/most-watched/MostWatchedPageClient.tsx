@@ -84,7 +84,13 @@ export default function MostWatchedPageClient() {
       />
 
       {/* Movie Grid */}
-      <MovieGrid movies={movies} loading={loading && movies.length === 0} />
+      <MovieGrid
+        movies={movies}
+        loading={loading && movies.length === 0}
+        genres={genres}
+        yearRange={yearRange}
+        imdbScoreRange={imdbScoreRange}
+      />
       <div ref={loadMoreRef} className="h-10" />
     </div>
   );
