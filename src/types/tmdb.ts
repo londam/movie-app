@@ -28,3 +28,10 @@ export interface TMDBMovieDetails extends TMDBMovie {
   spoken_languages: { iso_639_1: string; name: string }[];
   production_companies: { id: number; name: string; logo_path: string | null }[];
 }
+
+export interface TMDBCastMember {
+  cast_id: number;
+  character: string;
+  name: string;
+  profile_path: string | null;
+}
