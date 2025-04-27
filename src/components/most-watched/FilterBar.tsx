@@ -92,25 +92,10 @@ export default function FilterBar({
         </PopoverContent>
       </Popover>
 
-      {/* Year Filter */}
-      {/* <Select value={year} onValueChange={onYearChange}>
-        <SelectTrigger className="w-[120px]">
-          <SelectValue placeholder="Select Year" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Years</SelectItem>
-          <SelectItem value="2024">2024</SelectItem>
-          <SelectItem value="2023">2023</SelectItem>
-          <SelectItem value="2022">2022</SelectItem>
-          <SelectItem value="2021">2021</SelectItem>
-          <SelectItem value="2020">2020</SelectItem>
-        </SelectContent>
-      </Select> */}
-
       {/* Year Range Slider */}
       <div className="w-[280px] flex flex-col items-start">
         <Label className="mb-2 text-sm text-white">
-          Year: {yearRange[0]} – {yearRange[1]}
+          Year: {yearRange[0]} - {yearRange[1]}
         </Label>
         <Slider
           min={1950}

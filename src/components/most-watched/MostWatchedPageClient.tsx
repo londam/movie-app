@@ -10,7 +10,7 @@ import MovieGrid from "./MovieGrid";
 export default function MostWatchedPageClient() {
   const [genres, setGenres] = useState<string[]>([]);
 
-  const [yearRange, setYears] = useState(() => [1990, 2025]);
+  const [yearRange, setYearRange] = useState<[number, number]>(() => [1990, 2025]);
   const [score, setScore] = useState("");
   const [movies, setMovies] = useState<TMDBMovie[]>([]);
   const [page, setPage] = useState(1);
@@ -79,7 +79,7 @@ export default function MostWatchedPageClient() {
         yearRange={yearRange}
         score={score}
         onGenresChange={setGenres}
-        onYearChange={setYears}
+        onYearRangeChange={setYearRange}
         onScoreChange={setScore}
       />
 
