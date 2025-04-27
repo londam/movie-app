@@ -5,5 +5,9 @@ interface PageProps {
 }
 
 export default function MovieDetailsModalPage({ params }: PageProps) {
-  return <MovieDetailsModal movieId={params.movieId} />;
+  return (
+    <>
+      <MovieDetailsModal movieId={params.movieId} />
+    </>
+  );
 }

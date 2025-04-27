@@ -10,11 +10,20 @@ export const metadata: Metadata = {
   description: "Discover, favorite, and explore movies!",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={inter.className + " bg-black text-white"}>
-        <AppWrapper>{children}</AppWrapper>
+        <AppWrapper>
+          <>{children}</>
+          {modal}
+        </AppWrapper>
       </body>
     </html>
   );
