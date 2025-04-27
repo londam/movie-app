@@ -103,6 +103,7 @@ export default function FilterBar({
           step={1}
           value={yearRange}
           onValueChange={(value) => onYearRangeChange(value as [number, number])}
+          className="w-full [&_[data-slot=slider-range]]:bg-yellow-400 [&_[data-slot=slider-track]]:bg-neutral-900 [&_[role=slider]]:bg-yellow-400"
         />
       </div>
 
