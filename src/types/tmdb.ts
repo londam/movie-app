@@ -23,4 +23,8 @@ export interface TMDBMovieDetails extends TMDBMovie {
   revenue: number;
   tagline: string;
   backdrop_path: string;
+  status: string;
+  homepage: string | null;
+  spoken_languages: { iso_639_1: string; name: string }[];
+  production_companies: { id: number; name: string; logo_path: string | null }[];
 }

@@ -45,7 +45,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
       )}
 
       {/* Info */}
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-6 items-center">
         {/* Poster */}
         {movie.poster_path && (
           <div className="relative w-48 h-72">
