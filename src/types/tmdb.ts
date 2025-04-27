@@ -22,4 +22,5 @@ export interface TMDBMovieDetails extends TMDBMovie {
   budget: number;
   revenue: number;
   tagline: string;
+  backdrop_path: string;
 }
