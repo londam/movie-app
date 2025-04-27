@@ -1,4 +1,4 @@
-import { TMDBMovieListResponse } from "@/types/tmdb";
+import { TMDBMovieDetails, TMDBMovieListResponse } from "@/types/tmdb";
 import { fetchFromTMDB } from "./api";
 
 export async function getPopularMovies() {
@@ -25,4 +25,8 @@ export async function getPopularMoviesByGenre(genreId: number) {
     sort_by: "popularity.desc",
   });
   return data.results;
+}
+
+export async function getMovieDetails(movieId: string): Promise<TMDBMovieDetails> {
+  return fetchFromTMDB<TMDBMovieDetails>(`/movie/${movieId}`);
 }
