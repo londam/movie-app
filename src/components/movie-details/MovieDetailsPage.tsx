@@ -56,10 +56,17 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
         {movie.tagline && (
           <p className="italic text-neutral-400">{`&ldquo` + movie.tagline + `&ldquo`}</p>
         )}
+        <FavoriteButton
+          movie={{
+            id: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path,
+          }}
+        />
       </div>
 
       {/* Info */}
-      <div className="flex flex-col md:flex-row gap-6 items-center">
+      <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
         {/* Poster */}
         {movie.poster_path && (
           <div className="relative w-48 h-72">
@@ -161,13 +168,15 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
                 {movie.production_companies.map((company) => (
                   <div key={company.id} className="flex items-center gap-2">
                     {company.logo_path && (
-                      <Image
-                        src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
-                        alt={company.name}
-                        width={100} // fixed width (or whatever looks good)
-                        height={40} // fixed height
-                        className="object-contain h-8 w-auto"
-                      />
+                      <div className="p-2 bg-white rounded-md">
+                        <Image
+                          src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
+                          alt={company.name}
+                          width={100} // fixed width (or whatever looks good)
+                          height={40} // fixed height
+                          className="object-contain h-8 w-auto"
+                        />
+                      </div>
                     )}
                     <span>{company.name}</span>
                   </div>
