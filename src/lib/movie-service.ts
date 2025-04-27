@@ -34,3 +34,11 @@ export async function getMovieDetails(movieId: string): Promise<TMDBMovieDetails
 export async function getMovieCredits(movieId: string): Promise<{ cast: TMDBCastMember[] }> {
   return fetchFromTMDB<{ cast: TMDBCastMember[] }>(`/movie/${movieId}/credits`);
 }
+
+export async function searchMovies(query: string) {
+  const res = await fetchFromTMDB<{ results: { id: number; title: string }[] }>("/search/movie", {
+    query,
+  });
+
+  return res.results.slice(0, 5); // Only take first 5 suggestions
+}
