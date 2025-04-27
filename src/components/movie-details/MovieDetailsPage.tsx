@@ -86,13 +86,21 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
           <p className="text-neutral-400">{movie.overview}</p>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            <span>⭐ {movie.vote_average.toFixed(1)}</span>
+            <span>IMDB ⭐{movie.vote_average.toFixed(1)}</span>
             <span>📅 {movie.release_date}</span>
             <span>⏱️ {movie.runtime} min</span>
             {movie.production_countries.length > 0 && (
               <span>🌍 {movie.production_countries[0].name}</span>
             )}
             <span>Status: {movie.status}</span>
+          </div>
+          {/* Genres */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {movie.genres.map((genre) => (
+              <span key={genre.id} className="px-3 py-1 bg-neutral-800 rounded-full">
+                {genre.name}
+              </span>
+            ))}
           </div>
           {/* Cast */}
           {cast.length > 0 && (
@@ -138,15 +146,6 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
               </a>
             </div>
           )}
-
-          {/* Genres */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            {movie.genres.map((genre) => (
-              <span key={genre.id} className="px-3 py-1 bg-neutral-800 rounded-full">
-                {genre.name}
-              </span>
-            ))}
-          </div>
 
           {/* Languages */}
           <div className="mt-6">
