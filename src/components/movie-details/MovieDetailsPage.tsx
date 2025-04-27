@@ -56,6 +56,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
         {movie.tagline && (
           <p className="italic text-neutral-400">{`&ldquo` + movie.tagline + `&ldquo`}</p>
         )}
+        {/* Favorit Button */}
         <FavoriteButton
           movie={{
             id: movie.id,
@@ -97,24 +98,22 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
           {cast.length > 0 && (
             <div className="mt-8">
               <h2 className="text-xl font-bold mb-4">Cast</h2>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(120px,1fr))]">
                 {cast.map((actor) => (
-                  <div key={actor.cast_id} className="text-center space-y-2">
-                    {actor.profile_path ? (
-                      <Image
-                        src={`https://image.tmdb.org/t/p/w185${actor.profile_path}`}
-                        alt={actor.name}
-                        width={120}
-                        height={180}
-                        className="rounded-md object-cover mx-auto"
-                      />
-                    ) : (
-                      <div className="w-[120px] h-[180px] bg-neutral-800 rounded-md mx-auto flex items-center justify-center">
-                        <span className="text-xs text-neutral-400">No Image</span>
-                      </div>
-                    )}
-                    <div className="text-sm font-semibold text-yellow-400">{actor.name}</div>
-                    <div className="text-xs text-neutral-400">{actor.character}</div>
+                  <div key={actor.cast_id} className="flex flex-col items-center text-center">
+                    <Image
+                      src={
+                        actor.profile_path
+                          ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
+                          : "/default-avatar.png"
+                      }
+                      alt={actor.name}
+                      width={120}
+                      height={180}
+                      className="rounded-md object-cover"
+                    />
+                    <span className="mt-2 text-sm font-semibold">{actor.name}</span>
+                    <span className="text-xs text-neutral-400">{actor.character}</span>
                   </div>
                 ))}
               </div>
@@ -184,17 +183,6 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
               </div>
             </div>
           )}
-
-          {/* Favorite Button */}
-          <div className="mt-8">
-            <FavoriteButton
-              movie={{
-                id: movie.id,
-                title: movie.title,
-                poster_path: movie.poster_path,
-              }}
-            />
-          </div>
         </div>
       </div>
     </div>
