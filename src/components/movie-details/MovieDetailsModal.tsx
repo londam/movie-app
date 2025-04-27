@@ -7,7 +7,7 @@ import FavoriteButton from "@/components/movie/FavoriteButton";
 import Image from "next/image";
 import { X } from "lucide-react"; // using lucide for close icon (shadcn default)
 import { TMDBMovieDetails } from "@/types/tmdb";
-import Modal from "../Modal";
+import Link from "next/link";
 
 interface MovieDetailsModalProps {
   movieId: string;
@@ -43,6 +43,11 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
     [onDismiss]
   );
 
+  const onViewFullPage = useCallback(() => {
+    console.log("Viewfullpage clicked!");
+    router.replace(`/m/${movie?.id}`);
+  }, [router, movie?.id]);
+
   useEffect(() => {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
@@ -54,7 +59,7 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
   return (
     <div
       className="fixed inset-0 bg-black/80 flex justify-center items-center z-60"
-      onClick={() => router.back()}
+      onClick={onDismiss}
     >
       <div
         className="relative bg-neutral-900 p-6 rounded-lg w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto"
@@ -63,13 +68,13 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
         {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-neutral-400 hover:text-white transition"
-          onClick={() => router.back()}
+          onClick={onDismiss}
         >
           <X className="w-6 h-6" />
         </button>
 
         {/* Poster and Info */}
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col md:flex-row gap-6 items-center">
           {/* Poster */}
           {movie.poster_path && (
             <div className="relative w-32 md:w-48 h-48 md:h-72">
@@ -114,6 +119,19 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
                   poster_path: movie.poster_path,
                 }}
               />
+            </div>
+            {/* Link to details page*/}
+            <div className="mt-6 flex justify-center">
+              <Link href={`/m/${movie?.id}`} prefetch={false} passHref>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent modal from closing
+                  }}
+                  className="mt-6 px-4 py-2 rounded bg-yellow-500 text-black hover:bg-yellow-600 transition"
+                >
+                  View Full Details
+                </button>
+              </Link>
             </div>
           </div>
         </div>
