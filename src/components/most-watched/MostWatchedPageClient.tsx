@@ -11,7 +11,7 @@ export default function MostWatchedPageClient() {
   const [genres, setGenres] = useState<string[]>([]);
 
   const [yearRange, setYearRange] = useState<[number, number]>(() => [1990, 2025]);
-  const [imdbScoreRange, setImdbScoreChange] = useState<[number, number]>(() => [7.5, 10]);
+  const [imdbScoreRange, setImdbScoreRange] = useState<[number, number]>(() => [7.5, 10]);
   const [movies, setMovies] = useState<TMDBMovie[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -19,19 +19,18 @@ export default function MostWatchedPageClient() {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const [hasMore, setHasMore] = useState(true);
 
-  const filteredMovies = movies.filter((movie) => {
+  // Utility: Check if a movie matches current filters
+  function matchesFilters(movie: TMDBMovie) {
     const releaseYear = parseInt(movie.release_date?.split("-")[0] || "0");
     const imdbScore = movie.vote_average || 0;
     const movieGenres = movie.genre_ids || [];
 
     const matchesYear = releaseYear >= yearRange[0] && releaseYear <= yearRange[1];
-
     const matchesScore = imdbScore >= imdbScoreRange[0] && imdbScore <= imdbScoreRange[1];
-
     const matchesGenre = genres.length === 0 || genres.some((g) => movieGenres.includes(Number(g)));
 
     return matchesYear && matchesScore && matchesGenre;
-  });
+  }
 
   useEffect(() => {
     async function loadMovies() {
@@ -53,7 +52,15 @@ export default function MostWatchedPageClient() {
           setHasMore(false); // no more data from API
           return;
         }
-        setMovies((prev) => [...prev, ...data.results]);
+
+        const newFilteredMovies = data.results.filter(matchesFilters);
+
+        if (newFilteredMovies.length === 0 && data.results.length > 0) {
+          // No match from this batch, but more data may exist on next page
+          setPage((prev) => prev + 1);
+        } else {
+          setMovies((prev) => [...prev, ...newFilteredMovies]);
+        }
       } catch (error) {
         console.error(error);
         setHasMore(false); // stop on error too (reached end of pages from API)
@@ -67,7 +74,7 @@ export default function MostWatchedPageClient() {
     }
 
     loadMovies();
-  }, [page]);
+  }, [page, genres, yearRange, imdbScoreRange]);
 
   useEffect(() => {
     if (!loadMoreRef.current) return;
@@ -89,7 +96,7 @@ export default function MostWatchedPageClient() {
     return () => {
       observer.disconnect();
     };
-  }, [isFetchingNextPage]);
+  }, [isFetchingNextPage, hasMore]);
 
   return (
     <div className="p-6">
@@ -100,13 +107,28 @@ export default function MostWatchedPageClient() {
         genres={genres}
         yearRange={yearRange}
         imdbScoreRange={imdbScoreRange}
-        onGenresChange={setGenres}
-        onYearRangeChange={setYearRange}
-        onImdbScoreChange={setImdbScoreChange}
+        onGenresChange={(newGenres) => {
+          setGenres(newGenres);
+          setMovies([]);
+          setPage(1);
+          setHasMore(true);
+        }}
+        onYearRangeChange={(newRange) => {
+          setYearRange(newRange);
+          setMovies([]);
+          setPage(1);
+          setHasMore(true);
+        }}
+        onImdbScoreChange={(newScoreRange) => {
+          setImdbScoreRange(newScoreRange);
+          setMovies([]);
+          setPage(1);
+          setHasMore(true);
+        }}
       />
 
       {/* Movie Grid */}
-      <MovieGrid movies={filteredMovies} loading={loading && movies.length === 0} />
+      <MovieGrid movies={movies} loading={loading && movies.length === 0} />
       <div ref={loadMoreRef} className="h-10" />
     </div>
   );
