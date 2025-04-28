@@ -3,7 +3,7 @@
 import MovieCard from "@/components/movie/MovieCard";
 import { cn } from "@/lib/utils";
 import { TMDBMovie } from "@/types/tmdb";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // shadcn uses lucide for icons
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
 interface HorizontalMovieListProps {

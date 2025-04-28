@@ -27,16 +27,16 @@ export default function MovieDropdownList({
   const listRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to active item
-  useEffect(() => {
-    if (listRef.current) {
-      const activeItem = listRef.current.querySelector(".active");
-      if (activeItem) {
-        (activeItem as HTMLElement).scrollIntoView({
-          block: "nearest",
-        });
-      }
-    }
-  }, [activeIndex]);
+  // useEffect(() => {
+  //   if (listRef.current) {
+  //     const activeItem = listRef.current.querySelector(".active");
+  //     if (activeItem) {
+  //       (activeItem as HTMLElement).scrollIntoView({
+  //         block: "nearest",
+  //       });
+  //     }
+  //   }
+  // }, [activeIndex]);
 
   return (
     <div

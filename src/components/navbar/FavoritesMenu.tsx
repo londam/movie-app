@@ -61,7 +61,6 @@ export default function FavoritesMenu() {
           <MovieDropdownList
             movies={favorites}
             activeIndex={activeIndex}
-            // onSelect={onSelectMovie}
             onSelect={(movie) => {
               window.location.href = `/m/${movie.id}`;
             }}

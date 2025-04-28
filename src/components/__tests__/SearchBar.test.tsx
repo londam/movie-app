@@ -41,7 +41,7 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-  vi.clearAllMocks(); // ✅ clears calls to all mock functions
+  vi.clearAllMocks();
 });
 
 describe("SearchBar", () => {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { getMovieDetails } from "@/lib/movie-service";
 import FavoriteButton from "@/components/movie/FavoriteButton";
 import Image from "next/image";
-import { X } from "lucide-react"; // using lucide for close icon (shadcn default)
+import { X } from "lucide-react";
 import { TMDBMovieDetails } from "@/types/tmdb";
 import Link from "next/link";
 import { getImageUrl } from "@/lib/image";
@@ -115,7 +115,7 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
               <Link href={`/m/${movie?.id}`} prefetch={false} passHref>
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); // prevent modal from closing
+                    e.stopPropagation();
                   }}
                   className="mt-6 px-4 py-2 rounded bg-yellow-500 text-black hover:bg-yellow-600 transition"
                 >

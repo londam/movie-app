@@ -8,7 +8,6 @@ import { TMDBMovie } from "@/types/tmdb";
 import { describe, expect, it } from "vitest";
 import type { FavoritesState } from "@/store/slices/favoritesSlice";
 
-// Mock movie
 const mockMovie: TMDBMovie = {
   id: 1,
   title: "Inception",
@@ -19,7 +18,6 @@ const mockMovie: TMDBMovie = {
   vote_average: 5.5,
 };
 
-// Helper to render with Redux
 function renderWithStore(initialState: FavoritesState, small = false) {
   const store = configureStore({
     reducer: {

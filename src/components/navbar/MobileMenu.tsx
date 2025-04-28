@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; // lucide icons
+import { Menu, X } from "lucide-react";
 
 import Link from "next/link";
 import SearchBar from "./SearchBar";

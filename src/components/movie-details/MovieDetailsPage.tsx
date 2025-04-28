@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getMovieCredits, getMovieDetails } from "@/lib/movie-service";
-import FavoriteButton from "@/components/movie/FavoriteButton"; // reuse
+import FavoriteButton from "@/components/movie/FavoriteButton";
 import Image from "next/image";
 import { TMDBCastMember, TMDBMovieDetails } from "@/types/tmdb";
 
@@ -164,8 +164,8 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
                         <Image
                           src={getImageUrl(company.logo_path, "w200")}
                           alt={company.name}
-                          width={100} // fixed width (or whatever looks good)
-                          height={40} // fixed height
+                          width={100}
+                          height={40}
                           className="object-contain h-8 w-auto"
                         />
                       </div>

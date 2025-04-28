@@ -26,12 +26,10 @@ const mockMovie: TMDBMovie = {
   genre_ids: [1, 3, 4],
 };
 
-// Combine reducers
 const reducer = combineReducers({
   favorites: favoritesReducer,
 });
 
-// Create test store
 const createTestStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer,

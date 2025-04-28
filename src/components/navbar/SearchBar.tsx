@@ -26,7 +26,7 @@ export default function SearchBar() {
       const data = await fetchFromTMDB<{ results: TMDBMovie[] }>("/search/movie", {
         query: search,
       });
-      setSearchResults(data.results.slice(0, 5)); // Only show top 5 results
+      setSearchResults(data.results.slice(0, 5));
     } catch (error) {
       console.error("Failed to fetch search results", error);
     }
