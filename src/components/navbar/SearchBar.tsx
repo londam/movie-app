@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input"; // Your Shadcn input
-import { fetchFromTMDB } from "@/lib/api"; // Your API fetcher
-import { TMDBMovie } from "@/types/tmdb"; // Your movie types
+import { Input } from "@/components/ui/input";
+import { fetchFromTMDB } from "@/lib/api";
+import { TMDBMovie } from "@/types/tmdb";
 import Image from "next/image";
+import { Search, Loader } from "lucide-react";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -57,19 +58,32 @@ export default function SearchBar() {
     }
   };
 
+  const onSearchClick = useCallback(() => {
+    if (query.trim() !== "") {
+      router.push(`/search?query=${encodeURIComponent(query.trim())}`);
+    }
+  }, [query, router]);
+
   return (
     <div className="relative w-full max-w-md">
-      <Input
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setDropdownOpen(true);
-        }}
-        onKeyDown={handleKeyDown}
-        placeholder="Search movies..."
-        className="rounded-full bg-neutral-800 text-white px-4 py-2"
-      />
-
+      <div className="flex items-center px-3 py-2">
+        <Input
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setDropdownOpen(true);
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder="Search movies..."
+          className="rounded-full bg-neutral-800 text-white px-4 py-2"
+        />
+        <button
+          onClick={onSearchClick}
+          className="-ml-8 text-neutral-400 hover:text-yellow-400 transition"
+        >
+          <Search className="w-5 h-5" />
+        </button>
+      </div>
       {dropdownOpen && results.length > 0 && (
         <div className="absolute mt-2 w-full rounded-lg bg-neutral-900 shadow-lg border border-neutral-700 z-50">
           {results.map((movie, index) => (
