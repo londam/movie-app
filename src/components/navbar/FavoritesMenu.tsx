@@ -37,7 +37,8 @@ export default function FavoritesMenu() {
       setActiveIndex((prev) => (prev - 1 + favorites.length) % favorites.length);
     } else if (e.key === "Enter") {
       if (activeIndex >= 0 && activeIndex < favorites.length) {
-        router.push(`/m/${favorites[activeIndex].id}`);
+        window.location.href = `/m/${favorites[activeIndex].id}`;
+        // router.push(`/m/${favorites[activeIndex].id}`);
         setOpen(false);
       }
     } else if (e.key === "Escape") {
