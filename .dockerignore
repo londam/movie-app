@@ -1,0 +1,12 @@
+# Ignore unnecessary files for Docker context
+node_modules
+.next
+out
+Dockerfile
+docker-compose.yml
+.vscode
+.git
+.gitignore
+npm-debug.log
+README.md
+*.md
