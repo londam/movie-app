@@ -8,6 +8,7 @@ import Image from "next/image";
 import { X } from "lucide-react"; // using lucide for close icon (shadcn default)
 import { TMDBMovieDetails } from "@/types/tmdb";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/image";
 
 interface MovieDetailsModalProps {
   movieId: string;
@@ -43,11 +44,6 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
     [onDismiss]
   );
 
-  const onViewFullPage = useCallback(() => {
-    console.log("Viewfullpage clicked!");
-    router.replace(`/m/${movie?.id}`);
-  }, [router, movie?.id]);
-
   useEffect(() => {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
@@ -79,7 +75,7 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
           {movie.poster_path && (
             <div className="relative w-32 md:w-48 h-48 md:h-72">
               <Image
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                src={getImageUrl(movie.poster_path)}
                 alt={movie.title}
                 fill
                 className="object-cover rounded-md"
@@ -112,13 +108,7 @@ export default function MovieDetailsModal({ movieId }: MovieDetailsModalProps) {
 
             {/* Favorite Button */}
             <div className="mt-6">
-              <FavoriteButton
-                movie={{
-                  id: movie.id,
-                  title: movie.title,
-                  poster_path: movie.poster_path,
-                }}
-              />
+              <FavoriteButton movie={movie} />
             </div>
             {/* Link to details page*/}
             <div className="mt-6 flex justify-center">

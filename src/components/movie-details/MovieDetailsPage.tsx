@@ -6,6 +6,8 @@ import FavoriteButton from "@/components/movie/FavoriteButton"; // reuse
 import Image from "next/image";
 import { TMDBCastMember, TMDBMovieDetails } from "@/types/tmdb";
 
+import { getImageUrl } from "@/lib/image";
+
 interface MovieDetailsPageProps {
   movieId: string;
 }
@@ -41,7 +43,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
       {movie.backdrop_path && (
         <div className="relative w-full h-[300px]">
           <Image
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+            src={getImageUrl(movie.backdrop_path, "original")}
             alt={movie.title}
             fill
             className="object-cover rounded-md"
@@ -55,13 +57,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
         <h1 className="text-4xl font-bold text-yellow-400">{movie.title}</h1>
         {movie.tagline && <p className="italic text-neutral-400">&quot;{movie.tagline}&quot;</p>}
         {/* Favorit Button */}
-        <FavoriteButton
-          movie={{
-            id: movie.id,
-            title: movie.title,
-            poster_path: movie.poster_path,
-          }}
-        />
+        <FavoriteButton movie={movie} />
       </div>
 
       {/* Info */}
@@ -70,7 +66,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
         {movie.poster_path && (
           <div className="relative w-48 h-72">
             <Image
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              src={getImageUrl(movie.poster_path)}
               alt={movie.title}
               fill
               className="object-cover rounded-md"
@@ -110,7 +106,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
                     <Image
                       src={
                         actor.profile_path
-                          ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
+                          ? getImageUrl(actor.profile_path, "w185")
                           : "/default-avatar.png"
                       }
                       alt={actor.name}
@@ -166,7 +162,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
                     {company.logo_path && (
                       <div className="p-2 bg-white rounded-md">
                         <Image
-                          src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
+                          src={getImageUrl(company.logo_path, "w200")}
                           alt={company.name}
                           width={100} // fixed width (or whatever looks good)
                           height={40} // fixed height
