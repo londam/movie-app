@@ -34,12 +34,10 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
     const startX = e.pageX;
     const scrollLeft = el.scrollLeft;
 
-    // let isDragging = false;
-
     const onMouseMove = (moveEvent: MouseEvent) => {
       const x = moveEvent.pageX;
       const distance = Math.abs(x - startX);
-      if (distance > 10) {
+      if (distance > 5) {
         setIsDragging(true);
       }
       const walk = (startX - x) * 1;
@@ -81,7 +79,7 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
       <div
         ref={listRef}
         onMouseDown={(e) => {
-          setIsDragging(true);
+          setIsDragging(false);
           handleMouseDown(e);
         }}
         onMouseUp={() => {
@@ -100,7 +98,7 @@ export default function HorizontalMovieList({ movies, maxItems = 10 }: Horizonta
             onMouseEnter={() => setIsHoveringCard(true)}
             onMouseLeave={() => setIsHoveringCard(false)}
           >
-            <MovieCard movie={movie} rank={index + 1} />
+            <MovieCard movie={movie} rank={index + 1} isDragging={isDragging} />
           </div>
         ))}
       </div>
