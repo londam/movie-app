@@ -35,3 +35,15 @@ src/
 │
 ├── tests/
 │ ├── (unit and component tests later)
+
+# Build and start the app
+
+docker-compose up --build
+
+# App will be available at:
+
+http://localhost:3000
+
+# Stop the app
+
+docker-compose down
