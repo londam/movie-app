@@ -9,7 +9,6 @@ const Navbar = () => {
     <header className="w-full px-4 py-3 border-b border-neutral-800 bg-black sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo / App Title */}
-        {/* <div className="text-yellow-400 text-2xl font-semibold">🎬 MovieApp</div> */}
         <Link
           href="/"
           className="text-2xl font-bold text-yellow-400 hover:text-yellow-200 transition"
