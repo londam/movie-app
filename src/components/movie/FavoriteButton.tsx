@@ -25,7 +25,10 @@ const FavoriteButton = ({ movie }: FavoriteButtonProps) => {
 
   return (
     <button
-      onClick={toggleFavorite}
+      onClick={(e) => {
+        e.preventDefault();
+        toggleFavorite();
+      }}
       className={cn(
         "rounded-full p-2 transition",
         isFavorited
