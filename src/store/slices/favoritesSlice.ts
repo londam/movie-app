@@ -1,13 +1,8 @@
+import { TMDBMovie } from "@/types/tmdb";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface FavoriteMovie {
-  id: number;
-  title: string;
-  poster_path: string;
-}
-
 interface FavoritesState {
-  favorites: FavoriteMovie[];
+  favorites: TMDBMovie[];
 }
 
 const initialState: FavoritesState = {
@@ -18,7 +13,7 @@ export const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
-    addFavorite: (state, action: PayloadAction<FavoriteMovie>) => {
+    addFavorite: (state, action: PayloadAction<TMDBMovie>) => {
       if (!state.favorites.find((m) => m.id === action.payload.id))
         state.favorites.push(action.payload);
     },

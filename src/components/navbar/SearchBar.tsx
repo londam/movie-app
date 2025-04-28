@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { fetchFromTMDB } from "@/lib/api";
 import { TMDBMovie } from "@/types/tmdb";
-import Image from "next/image";
 import { Search } from "lucide-react";
+import MovieDropdownList from "../shared/MovieDropdownList";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -51,7 +51,8 @@ export default function SearchBar() {
     } else if (e.key === "Enter") {
       if (activeIndex >= 0 && activeIndex < searchResults.length) {
         const selectedMovie = searchResults[activeIndex];
-        window.location.href = `/m/${selectedMovie.id}`;
+        router.push(`/m/${selectedMovie.id}`);
+        // window.location.href = `/m/${selectedMovie.id}`;
       } else {
         router.push(`/search?query=${encodeURIComponent(query)}`);
       }
@@ -102,43 +103,15 @@ export default function SearchBar() {
         </button>
       </div>
       {dropdownOpen && searchResults.length > 0 && (
-        <div className="absolute mt-2 w-full rounded-lg bg-neutral-900 shadow-lg border border-neutral-700 z-50">
-          {searchResults.map((movie, index) => (
-            <div
-              key={movie.id}
-              onMouseDown={() => {
-                window.location.href = `/m/${movie.id}`;
-              }}
-              className={`flex items-center gap-4 p-2 cursor-pointer ${
-                index === activeIndex ? "bg-neutral-800" : "hover:bg-neutral-700"
-              }`}
-            >
-              {/* Poster */}
-              {movie.poster_path ? (
-                <div className="relative w-10 h-14 flex-shrink-0 rounded overflow-hidden">
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    fill
-                    className="object-cover"
-                    sizes="40px"
-                  />
-                </div>
-              ) : (
-                <div className="w-10 h-14 bg-neutral-700 flex items-center justify-center text-xs text-white">
-                  N/A
-                </div>
-              )}
-
-              {/* Title */}
-              <div>
-                <div className="text-sm text-white">{movie.title}</div>
-                <div className="text-xs text-gray-500">
-                  {movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="absolute bg-neutral-900 mt-2 w-full z-50">
+          <MovieDropdownList
+            movies={searchResults}
+            activeIndex={activeIndex}
+            onSelect={(movie) => {
+              router.push(`/m/${movie.id}`);
+              // window.location.href = `/m/${movie.id}`;
+            }}
+          />
         </div>
       )}
     </div>

@@ -1,15 +1,15 @@
 "use client";
 
 import FavoriteButton from "./FavoriteButton";
-import { FavoriteMovie } from "@/store/slices/favoritesSlice";
 
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { getImageUrl } from "@/lib/image";
 import Link from "next/link";
+import { TMDBMovie } from "@/types/tmdb";
 
 interface MovieCardProps {
-  movie: FavoriteMovie;
+  movie: TMDBMovie;
   rank?: number;
   isDragging?: boolean;
 }
@@ -46,7 +46,9 @@ export default function MovieCard({ movie, rank, isDragging }: MovieCardProps) {
 
       {/* Title */}
       <CardContent className="p-2 py-1 -my-4">
-        <h2 className="text-sm font-semibold text-white truncate">{movie.title}</h2>
+        <h2 className="text-sm font-semibold text-white truncate" title={movie.title}>
+          {movie.title}
+        </h2>
       </CardContent>
     </Card>
   );

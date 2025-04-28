@@ -15,10 +15,13 @@ const Navbar = () => {
         >
           🎬 Movie App
         </Link>
-
+        <Link href="/most-watched">
+          <h2>Most Watched</h2>
+        </Link>
         {/* Right Side: Search + Favorites */}
         <div className="flex items-center gap-4">
           <SearchBar />
+
           <FavoritesMenu />
         </div>
       </div>

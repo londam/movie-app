@@ -1,15 +1,17 @@
 "use client";
 import { RootState } from "@/store";
-import { addFavorite, FavoriteMovie, removeFavorite } from "@/store/slices/favoritesSlice";
+import { addFavorite, removeFavorite } from "@/store/slices/favoritesSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cn } from "@/lib/utils";
+import { TMDBMovie } from "@/types/tmdb";
 
 interface FavoriteButtonProps {
-  movie: FavoriteMovie;
+  movie: TMDBMovie;
+  small?: boolean;
 }
 
-const FavoriteButton = ({ movie }: FavoriteButtonProps) => {
+const FavoriteButton = ({ movie, small = false }: FavoriteButtonProps) => {
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.favorites);
 
@@ -31,6 +33,7 @@ const FavoriteButton = ({ movie }: FavoriteButtonProps) => {
       }}
       className={cn(
         "rounded-full p-2 transition",
+        small ? "p-1 text-sm" : "p-2 text-base",
         isFavorited
           ? "bg-yellow-400 text-black hover:bg-yellow-200"
           : "bg-neutral-800 text-white hover:bg-neutral-700"
