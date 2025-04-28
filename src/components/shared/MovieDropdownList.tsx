@@ -56,6 +56,7 @@ export default function MovieDropdownList({
       {/* Movie list */}
       {movies.map((movie, index) => (
         <div
+          data-testid={`movie-item-${movie.id}`}
           key={movie.id}
           onMouseDown={() => onSelect(movie)}
           className={cn(
