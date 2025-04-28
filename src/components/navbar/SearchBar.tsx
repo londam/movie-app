@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"; // Your Shadcn input
 import { fetchFromTMDB } from "@/lib/api"; // Your API fetcher
 import { TMDBMovie } from "@/types/tmdb"; // Your movie types
+import Image from "next/image";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -71,19 +72,35 @@ export default function SearchBar() {
 
       {dropdownOpen && results.length > 0 && (
         <div className="absolute mt-2 w-full rounded-lg bg-neutral-900 shadow-lg border border-neutral-700 z-50">
-          {results.map((movie, idx) => (
+          {results.map((movie, index) => (
             <div
               key={movie.id}
-              className={`px-4 py-2 cursor-pointer hover:bg-neutral-800 ${
-                idx === activeIndex ? "bg-neutral-800" : ""
-              }`}
               onMouseDown={() => {
                 window.location.href = `/m/${movie.id}`;
-
-                setDropdownOpen(false);
               }}
+              className={`flex items-center gap-4 p-2 cursor-pointer ${
+                index === activeIndex ? "bg-neutral-800" : "hover:bg-neutral-700"
+              }`}
             >
-              {movie.title}
+              {/* Poster */}
+              {movie.poster_path ? (
+                <div className="relative w-10 h-14 flex-shrink-0 rounded overflow-hidden">
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    fill
+                    className="object-cover"
+                    sizes="40px"
+                  />
+                </div>
+              ) : (
+                <div className="w-10 h-14 bg-neutral-700 flex items-center justify-center text-xs text-white">
+                  N/A
+                </div>
+              )}
+
+              {/* Title */}
+              <div className="text-sm text-white">{movie.title}</div>
             </div>
           ))}
         </div>
