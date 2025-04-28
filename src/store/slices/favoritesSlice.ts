@@ -1,7 +1,7 @@
 import { TMDBMovie } from "@/types/tmdb";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface FavoritesState {
+export interface FavoritesState {
   favorites: TMDBMovie[];
 }
 

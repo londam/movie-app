@@ -6,6 +6,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import favoritesReducer from "@/store/slices/favoritesSlice";
 import { TMDBMovie } from "@/types/tmdb";
 import { describe, expect, it } from "vitest";
+import type { FavoritesState } from "@/store/slices/favoritesSlice";
 
 // Mock movie
 const mockMovie: TMDBMovie = {
@@ -19,7 +20,7 @@ const mockMovie: TMDBMovie = {
 };
 
 // Helper to render with Redux
-function renderWithStore(initialState: any, small = false) {
+function renderWithStore(initialState: FavoritesState, small = false) {
   const store = configureStore({
     reducer: {
       favorites: favoritesReducer,
