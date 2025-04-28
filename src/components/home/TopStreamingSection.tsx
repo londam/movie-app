@@ -40,16 +40,26 @@ const TopStreamingSection = () => {
       <SectionTitle title="Top 3 Movies by Streaming Service" />
 
       <Tabs defaultValue="Netflix" className="w-full inline-flex items-center ">
-        <TabsList className="gap-4 mb-6">
+        <TabsList className="gap-4 mb-6 bg-neutral-800">
           {streamServices.map((service) => (
-            <TabsTrigger key={service} value={service}>
+            <TabsTrigger
+              key={service}
+              value={service}
+              className="text-white transition-all
+              hover:text-yellow-400
+              data-[state=active]:text-yellow-400
+              data-[state=active]:bg-neutral-900
+              data-[state=active]:border-b-2
+              data-[state=active]:border-yellow-400
+            "
+            >
               {service}
             </TabsTrigger>
           ))}
         </TabsList>
 
         {streamServices.map((service, index) => (
-          <TabsContent key={service} value={service}>
+          <TabsContent key={service} value={service} className="w-full overflow-hidden">
             <HorizontalMovieList movies={movies.slice(index * 3, index * 3 + 3)} />
           </TabsContent>
         ))}
