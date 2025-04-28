@@ -24,7 +24,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-yellow-400 mb-6">Search results for "{query}"</h1>
+      <h1 className="text-2xl font-bold text-yellow-400 mb-6">
+        Search results for &quot;{query}&quot;
+      </h1>
 
       {movies.length === 0 ? (
         <div className="text-center text-neutral-400">No results found.</div>

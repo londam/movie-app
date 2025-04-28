@@ -53,9 +53,7 @@ export default function MovieDetailsPage({ movieId }: MovieDetailsPageProps) {
       {/* Title and Tagline */}
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-bold text-yellow-400">{movie.title}</h1>
-        {movie.tagline && (
-          <p className="italic text-neutral-400">{`&ldquo` + movie.tagline + `&ldquo`}</p>
-        )}
+        {movie.tagline && <p className="italic text-neutral-400">&quot;{movie.tagline}&quot;</p>}
         {/* Favorit Button */}
         <FavoriteButton
           movie={{
