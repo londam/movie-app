@@ -92,7 +92,7 @@ export default function SearchBar() {
           }}
           onKeyDown={handleKeyDown}
           placeholder="Search movies..."
-          className="rounded-full bg-neutral-800 text-white px-4 py-2"
+          className="rounded-b-md bg-neutral-800 text-white px-4 py-2"
         />
         <button
           onClick={onSearchClick}
