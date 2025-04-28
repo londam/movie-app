@@ -1,8 +1,7 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import SearchBar from "@/components/navbar/SearchBar";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
-import { useRouter } from "next/navigation";
 
 const mockRouter = {
   push: vi.fn(),
@@ -84,7 +83,6 @@ describe("SearchBar", () => {
   it("does not navigate when search query is empty", async () => {
     render(<SearchBar />);
 
-    const input = screen.getByPlaceholderText("Search movies...");
     const button = screen.getByRole("button");
 
     // No typing
