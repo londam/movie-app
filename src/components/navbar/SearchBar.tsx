@@ -1,23 +1,24 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { fetchFromTMDB } from "@/lib/api";
 import { TMDBMovie } from "@/types/tmdb";
 import Image from "next/image";
-import { Search, Loader } from "lucide-react";
+import { Search } from "lucide-react";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<TMDBMovie[]>([]);
+  const [searchResults, setSearchResults] = useState<TMDBMovie[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const searchMovies = useCallback(async (search: string) => {
     if (search.trim() === "") {
-      setResults([]);
+      setSearchResults([]);
       return;
     }
 
@@ -25,7 +26,7 @@ export default function SearchBar() {
       const data = await fetchFromTMDB<{ results: TMDBMovie[] }>("/search/movie", {
         query: search,
       });
-      setResults(data.results.slice(0, 5)); // Only show top 5 results
+      setSearchResults(data.results.slice(0, 5)); // Only show top 5 results
     } catch (error) {
       console.error("Failed to fetch search results", error);
     }
@@ -43,13 +44,13 @@ export default function SearchBar() {
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev + 1) % results.length);
+      setActiveIndex((prev) => (prev + 1) % searchResults.length);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev - 1 + results.length) % results.length);
+      setActiveIndex((prev) => (prev - 1 + searchResults.length) % searchResults.length);
     } else if (e.key === "Enter") {
-      if (activeIndex >= 0 && activeIndex < results.length) {
-        const selectedMovie = results[activeIndex];
+      if (activeIndex >= 0 && activeIndex < searchResults.length) {
+        const selectedMovie = searchResults[activeIndex];
         window.location.href = `/m/${selectedMovie.id}`;
       } else {
         router.push(`/search?query=${encodeURIComponent(query)}`);
@@ -58,6 +59,22 @@ export default function SearchBar() {
     }
   };
 
+  //clear & hide search results if clicked outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setSearchResults([]);
+        setActiveIndex(-1);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const onSearchClick = useCallback(() => {
     if (query.trim() !== "") {
       router.push(`/search?query=${encodeURIComponent(query.trim())}`);
@@ -65,7 +82,7 @@ export default function SearchBar() {
   }, [query, router]);
 
   return (
-    <div className="relative w-full max-w-md">
+    <div ref={wrapperRef} className="relative w-full max-w-md">
       <div className="flex items-center px-3 py-2">
         <Input
           value={query}
@@ -84,9 +101,9 @@ export default function SearchBar() {
           <Search className="w-5 h-5" />
         </button>
       </div>
-      {dropdownOpen && results.length > 0 && (
+      {dropdownOpen && searchResults.length > 0 && (
         <div className="absolute mt-2 w-full rounded-lg bg-neutral-900 shadow-lg border border-neutral-700 z-50">
-          {results.map((movie, index) => (
+          {searchResults.map((movie, index) => (
             <div
               key={movie.id}
               onMouseDown={() => {
